@@ -15,3 +15,6 @@
 /bin
 /src/github.com
 /src/golang.org
+/src/hello/debug
+/.vscode/launch.json
+/pkg/windows_amd64/github.com/gorilla/mux.a
