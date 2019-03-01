@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
-
 	"github.com/gorilla/mux"
 )
 
@@ -12,7 +11,7 @@ import (
 func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/people", GetPeople).Methods("GET")
-	log.Fatal(http.ListenAndServe(":8000", router))
+	log.Fatal(http.ListenAndServe(":8901", router))
 }
 
 // Person : is for person
@@ -20,7 +19,7 @@ type Person struct {
 	ID        string   `json:"id,omitempty"`
 	Firstname string   `json:"firstname,omitempty"`
 	Lastname  string   `json:"lastname,omitempty"`
-	Address   *Address `json:"address,omitemplty"`
+	Address   *Address `json:"address,omitempty"`
 }
 
 // Address : is for addresses
