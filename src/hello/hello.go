@@ -25,7 +25,7 @@ func main() { // no input parms, no return values, called automatically
 	var waitGrp sync.WaitGroup
 	waitGrp.Add(1) // part of concurency, had to add the "sync" pkg above, too
 
-	myChannel := make(chan int, 5) // channel, buffer size(5)(optional) channel writer blocks until read occurs, unless buffered like this one at 5, it can buffer 5
+	//todo: NYI, implement:  myChannel := make(chan int, 5) // channel, buffer size(5)(optional) channel writer blocks until read occurs, unless buffered like this one at 5, it can buffer 5
 
 	// slice variable length, can be resized like .net lists; slices are built on top of arrays, slices are references to contiguous sections of an array (name, type, starting offset, length)
 	mySlice := make([]string, 5, 10)                                                                         // slice example  type, length, capacity (cap -max)
