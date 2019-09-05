@@ -1,3 +1,9 @@
+// slices  (and arrays)
+// array - like a 'numbered lists' - of the same type (indexed, zero-based); static fixed length (6, or n)
+// slices - variable length, flexible (built on top of arrays); they are a reference (pointer);
+//          'slice header' :  name, type, offset, length, passed by reference to functions   ;  length can't be longer than array
+// append - append will lengthen the array, with the element(s) you add, it will double the capacity (interestingly) from the current capacity
+//          my example here:  doubles from 3 to 6 capacity, but then when it hits 6 boundary, doubles to 12 !   fun fact
 package main
 
 import (
@@ -36,9 +42,3 @@ func main() {
 	fmt.Printf("Brother-from-another-mutha: %s\n", myslice[6])
 
 }
-
-// slices  (and arrays)
-// array - like a 'numbered lists' - of the same type (indexed, zero-based); static fixed length (6, or n)
-// slices - variable length, flexible (built on top of arrays); they are a reference (pointer);
-//          'slice header' :  name, type, offset, length, passed by reference to functions   ;  length can't be longer than array
-//
