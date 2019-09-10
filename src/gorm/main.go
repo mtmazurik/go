@@ -9,6 +9,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mssql" // mssql not 'officially' supported so ad dialects to allow it, from blogpost: https://stackoverflow.com/questions/40110670/how-to-connect-to-microsoft-sql-server-using-gorm-in-golang
 )
@@ -25,7 +27,8 @@ func main() {
 	if err != nil {
 		panic(err.Error())
 	} else {
-		println("Connection to db was established.")
+		fmt.Println("Connection to db was established.")
+		// or println("Connection to db was established.")
 	}
 
 	db.Set("gorm:table_options", "ENGINE=GORMExampleDB CHARSET=utf8")
