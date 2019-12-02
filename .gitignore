@@ -21,3 +21,7 @@
 /pkg/windows_amd64/github.com/gorilla/mux.a
 /src/wordfrequencyapp
 settings.json
+src/temperature/.vs/slnx.sqlite
+src/temperature/.vs/temperature/v16/.suo
+src/temperature/.vs/VSWorkspaceState.json
+src/temperature/.vs/ProjectSettings.json
