@@ -1,2 +1,2 @@
 # go
-golang examples and pocs
+golang proof-of-concept code musings
