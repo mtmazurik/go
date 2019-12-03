@@ -2,35 +2,38 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
+	"os"
 	"time"
 
+	"github.com/xeipuuv/gojsonschema"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 // Repository data object for storage in MongoDB (Atlas-hosted solution)
 type Repository struct {
-	ID           int
-	KeyName      string
-	KeyValue     string
-	Tags         [10]string
-	CreatedDate  time.Time
-	CreatedBy    string
-	ModifiedDate time.Time
-	ModifiedBy   string
-	App          string
-	Repository   string
-	Collection   string
-	SchemaName   string
-	SchemaURI    string
-	Body         string
+	ID           int        `json:"_id"`
+	KeyName      string     `json:"keyName"`
+	KeyValue     string     `json:"keyValue"`
+	Tags         [10]string `json:"tags"`
+	CreatedDate  time.Time  `json:"createdDate"`
+	CreatedBy    string     `json:"createdBy"`
+	ModifiedDate time.Time  `json:"modifiedDate"`
+	ModifiedBy   string     `json:"modifiedBy"`
+	App          string     `json:"app"`
+	Repository   string     `json:"repository"`
+	Collection   string     `json:"collection"`
+	SchemaName   string     `json:"schemaName"`
+	SchemaURI    string     `json:"schemaURI"`
+	Body         string     `json:"body"`
 }
 
 func main() {
 
-	clientOptions := options.Client().ApplyURI("mongo-db-connection-string-goes-here-occluded-for-security")
+	clientOptions := options.Client().ApplyURI("mongodb+srv://nook-service:nookservice@mongo-db-cluster-sdzbh.mongodb.net/")
 
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 
@@ -50,6 +53,17 @@ func main() {
 	collection := client.Database("flight-db").Collection("flights")
 
 	repo := LoadRepoObject()
+	r, err := json.Marshal(repo)
+	if err != nil {
+		fmt.Printf("Error: %s", err)
+		return
+	}
+	s := string(r)
+
+	err = ValidateJSON(&s, &repo.SchemaURI)
+	if err != nil {
+		os.Exit(3) // alternative to return
+	}
 
 	insertResult, err := collection.InsertOne(context.TODO(), repo)
 	if err != nil {
@@ -64,6 +78,30 @@ func main() {
 		log.Fatal(err)
 	}
 
+}
+
+// ValidateJSON uses JSON Schema by xeipusanthosh-tekuri https://github.com/santhosh-tekuri/jsonschema
+func ValidateJSON(s *string, schemaURI *string) error {
+
+	documentLoader := gojsonschema.NewStringLoader(*s)
+	schemaLoader := gojsonschema.NewReferenceLoader(*schemaURI)
+
+	result, err := gojsonschema.Validate(schemaLoader, documentLoader)
+	if err != nil {
+		fmt.Printf("Error: %s", err)
+		return err
+	}
+
+	if result.Valid() {
+		fmt.Printf("The document is valid\n")
+	} else {
+		fmt.Printf("The document is invalid. see errors:\n")
+		for _, desc := range result.Errors() {
+			fmt.Printf("- %s\n", desc)
+		}
+	}
+
+	return nil
 }
 
 // LoadRepoObject is an object loader
@@ -84,7 +122,7 @@ func LoadRepoObject() Repository {
 	repo.Repository = "flight-db"
 	repo.Collection = "flights"
 	repo.SchemaName = "flight"
-	repo.SchemaURI = "https://www.cloudcomputingassociates.com/schemas/repository.schema.json"
+	repo.SchemaURI = "http://www.cloudcomputingassociates.com/schemas/repository.schema.json"
 	repo.Body = "{ \"flight\" : { \"flightNumber\" : \"580\", \"dayOfWeek\" : \"Monday\",\"manufacturer\":\"Boeing\", \"planeType\":\"777x\" }}"
 
 	return repo
