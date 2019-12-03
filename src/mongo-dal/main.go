@@ -33,7 +33,7 @@ type Repository struct {
 
 func main() {
 
-	clientOptions := options.Client().ApplyURI("mongodb+srv://nook-service:nookservice@mongo-db-cluster-sdzbh.mongodb.net/")
+	clientOptions := options.Client().ApplyURI("MONGO ATLAS connection string occluded for safety")
 
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 
