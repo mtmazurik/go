@@ -15,9 +15,9 @@ import (
 )
 
 // Create - Insert document; see MongoDB GitHub readme for more info on Driver usage https://github.com/mongodb/mongo-go-driver#usage 
-func Create(repo typelib.Repository) (string, error) {
+func Create(cn string, db string, coll string, repo typelib.Repository) (string, error) {
 
-	clientOptions := options.Client().ApplyURI("occluded for safety-mongodb atlas connection string here")
+	clientOptions := options.Client().ApplyURI(cn)
 
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 
@@ -31,7 +31,7 @@ func Create(repo typelib.Repository) (string, error) {
 		log.Fatal(err)
 	} 
 
-	collection := client.Database("flight-db").Collection("flights")
+	collection := client.Database(db).Collection(coll)
 
 	r, err := json.Marshal(repo)
 	if err != nil {

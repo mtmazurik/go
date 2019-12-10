@@ -4,27 +4,28 @@ import (
 	"testing"
 	"time"
 	"fmt"
-	"encoding/json"
+	//"encoding/json"
 
 	"mongodal"
 	"typelib"
 )
-// TestCreate tests inserting a record in Mongo Atlas
+// TestCreate tests insert record into Mongo:repository-nook-db / test-collection
 func TestCreate(t *testing.T){
 	
+	cn := "mongodb+srv://nook-service:nookservice@mongo-db-cluster-sdzbh.mongodb.net/"
 	repo := LoadRepoObject() // static data to test with
-
-	s,_ := json.Marshal(repo)
-	fmt.Printf("%s",string(s))
 	
-	insertedID, err := mongodal.Create(repo)
+	//s,_ := json.Marshal(repo)
+	//fmt.Printf("%s",string(s))
+	
+	insertedID, err := mongodal.Create(cn, "repository-nook-db", "test-collection", repo)
 	if  err!= nil {
 		fmt.Printf("Test failed.")
 	}
 
 	fmt.Println("Inserted a single document: ", insertedID)
 }
-// LoadRepoObject is an object loader
+// LoadRepoObject inserts dummy data into struct
 func LoadRepoObject() typelib.Repository {
 
 	var repo typelib.Repository
