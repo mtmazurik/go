@@ -12,7 +12,7 @@ import (
 // TestCreate tests insert record into Mongo:repository-nook-db / test-collection
 func TestCreate(t *testing.T){
 	
-	cn := "mongodb+srv://nook-service:nookservice@mongo-db-cluster-sdzbh.mongodb.net/"
+	cn := "***** occluded for safety:  mongo connection string to Atlas (hosted) *****"
 	repo := LoadRepoObject() // static data to test with
 	
 	//s,_ := json.Marshal(repo)
